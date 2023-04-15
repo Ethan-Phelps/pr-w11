@@ -1,0 +1,90 @@
+<!--
+Using any of the tools you’ve worked with so far, create a game of Tic-Tac-Toe.
+    -/ Create a Tic-Tac-Toe game grid using your HTML element of choice. 
+    -/ When a cell in the grid is clicked, an X or O should appear in that spot depending on whose turn it is.
+    -/ A heading should say whether it is X’s or O’s turn and change with each move made.
+    -/ A button should be available to clear the grid and restart the game.
+    -/ When a player has won, or the board is full and the game results in a draw,
+        -/ a Bootstrap alert or similar Bootstrap component should appear across the screen announcing the winner. 
+-->
+<html>
+    <head>
+        <title>page1</title>
+        <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+        <style>
+            *     {padding: 0; margin: 0; text-align: center; user-select: none;}
+            body    {background-color: #222; }
+            #primary  {background-color: #000; height: 40vw; width: 50vw; color: #000; font-size: 0vw; }
+            #top        {background-color: #888; height: 05vw; width: 50vw; color: #000; font-size: 3vw; }
+            #middle     {background-color: #888; height: 30vw; width: 50vw; color: #000; font-size: 0vw; padding: 0; margin: 0; }
+            #bottom     {background-color: #333; height: 05vw; width: 50vw; color: #666; font-size: 3vw; }
+            #m-left       {background-color: #444; height: 30vw; width: 10vw; color: #bbb; font-size: 0vw; }
+            #m-center     {background-color: #444; height: 30vw; width: 30vw; color: #000; font-size: 0vw; }
+            #m-right      {background-color: #444; height: 30vw; width: 10vw; color: #bbb; font-size: 0vw; }
+            #m-l-top        {background-color: #444; height: 04vw; width: 10vw; color: #bbb; font-size: 2vw; }
+            #m-l-middle     {background-color: #555; height: 18vw; width: 10vw; color: #bbb; font-size: 2vw; }
+            #m-l-bottom     {background-color: #444; height: 08vw; width: 10vw; color: #999; font-size: 5vw; }
+            #m-r-top        {background-color: #444; height: 04vw; width: 10vw; color: #bbb; font-size: 2vw; }
+            #m-r-middle     {background-color: #555; height: 18vw; width: 10vw; color: #bbb; font-size: 2vw; }
+            #m-r-bottom     {background-color: #444; height: 08vw; width: 10vw; color: #999; font-size: 5vw; }
+            #ptable           {background-color: #777; height: 30vw; width: 30vw; color: #000; font-size: 0vw; border-collapse: separate; border-spacing: 1vw;}
+            #ptable td        {background-color: #666; height: 05vw; width: 05vw; color: #000; font-size: 6vw; line-height: .1;}
+            p                 {display: flex; justify-content: center; align-items: center;}
+            #ptable td:hover, #bottom:hover {cursor: pointer;}
+            #walert           {position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); visibility: hidden;}
+        </style>
+        <script>
+            turn=1; s1=11;s2=12;s3=13;s4=14;s5=15;s6=16;s7=17;s8=18;s9=19; end=0;
+            function turn_(current){
+                if(document.getElementById("slot"+current).innerHTML!=""||end==1){}else{
+                if(turn==0) {document.getElementById("slot"+current).innerHTML="O";window["s"+current]=0;}
+                else        {document.getElementById("slot"+current).innerHTML="X";window["s"+current]=1;}
+                if((s1==s2&&s2==s3)||(s4==s5&&s5==s6)||(s7==s8&&s8==s9)||(s1==s4&&s4==s7)||(s2==s5&&s5==s8)||(s3==s6&&s6==s9)||(s1==s5&&s5==s9)||(s3==s5&&s5==s7)){
+                    end=1; document.getElementById("wmessage").innerHTML="PLAYER "+((turn+1)%2+1)+" WINS"; document.getElementById("walert").style.visibility="visible"; }
+                else if(s1<2&&s2<2&&s3<2&&s4<2&&s5<2&&s6<2&&s7<2&&s8<2&&s9<2){
+                    end=1; document.getElementById("wmessage").innerHTML="DRAW, NO ONE WINS"; document.getElementById("walert").style.visibility="visible"; }else{
+                if(turn==0) {turnX();}
+                else        {turn0();}
+            }}}
+            function turn0(){turn=0; document.getElementById("m-l-middle").innerHTML=""; document.getElementById("m-r-middle").innerHTML="<br>IT IS<br>YOUR TURN";}
+            function turnX(){turn=1; document.getElementById("m-r-middle").innerHTML=""; document.getElementById("m-l-middle").innerHTML="<br>IT IS<br>YOUR TURN";}
+            function reset(){for(i=1; i<=9;i++){document.getElementById("slot"+i).innerHTML=""}; s1=11;s2=12;s3=13;s4=14;s5=15;s6=16;s7=17;s8=18;s9=19; end=0; turnX();}
+            function vanish(){document.getElementById("walert").style.visibility="hidden";}
+        </script>
+    </head>
+    <body>
+        <div class="col-12 h-100 justify-content-center d-flex align-items-center">
+            <div id="primary"> 
+                <div id="top">TIC TAC TOE</div>
+                <div id="middle" class="row">
+                    <div id="m-left">
+                        <div id="m-l-top">PLAYER 1</div>
+                        <div id="m-l-middle"><br>IT IS<br>YOUR TURN</div>
+                        <div id="m-l-bottom">X</div>
+                    </div>
+                    <div id="m-center">
+                        <table id="ptable">
+                            <tbody>
+                                <tr><td onclick="turn_(1)"><p id="slot1"></p></td><td onclick="turn_(2)"><p id="slot2"></p></td><td onclick="turn_(3)"><p id="slot3"></p></td></tr>
+                                <tr><td onclick="turn_(4)"><p id="slot4"></p></td><td onclick="turn_(5)"><p id="slot5"></p></td><td onclick="turn_(6)"><p id="slot6"></p></td></tr>
+                                <tr><td onclick="turn_(7)"><p id="slot7"></p></td><td onclick="turn_(8)"><p id="slot8"></p></td><td onclick="turn_(9)"><p id="slot9"></p></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="m-right">
+                        <div id="m-r-top">PLAYER 2</div>
+                        <div id="m-r-middle"></div>
+                        <div id="m-r-bottom">O</div>
+                    </div>
+                </div>
+                <div id="bottom" onclick="reset()">RESET</div>
+            </div>
+        </div>
+        <div id="walert" class="alert alert-light alert-dismissible";>
+            <a id="wmessage"></a>
+            <button type="button" class="close" onclick="vanish()">&times;</button>
+        </div>
+        <script src="node_modules/jquery/dist/jquery.js"></script>
+        <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    </body>
+</html>
